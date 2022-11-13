@@ -1,0 +1,11 @@
+AllCops:
+  NewCops: enable
+
+Metrics/BlockLength:
+  CountAsOne: ['array', 'heredoc']
+
+Naming/VariableNumber:
+  EnforcedStyle: snake_case
+
+Style/Documentation:
+  Enabled: false
