@@ -1,23 +1,16 @@
 # frozen_string_literal: true
 
-require 'pry'
-
 module Year2022
   class Day01 < Solution
     # @input is available if you need the raw data input
     # Call `data` to access either an array of the parsed data, or a single record for a 1-line input file
 
     def part_1
-      highest = -Float::INFINITY
-      data.each do |elf|
-        calories = elf.sum
-        highest = calories if calories > highest
-      end
-      highest
+      data.map(&:sum).max
     end
 
     def part_2
-      nil
+      data.map(&:sum).sort.last(3).sum
     end
 
     # Processes each line of the input file and stores the result in the dataset
