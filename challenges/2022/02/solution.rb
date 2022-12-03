@@ -1,8 +1,24 @@
 # frozen_string_literal: true
 
-require 'pry'
-
 module Year2022
+  SCORE_HASH_2 = {
+    X: { base_score: 0, match_score: {
+      A: 3,
+      B: 1,
+      C: 2
+    } },
+    Y: { base_score: 3, match_score: {
+      A: 1,
+      B: 2,
+      C: 3
+    } },
+    Z: { base_score: 6, match_score: {
+      A: 2,
+      B: 3,
+      C: 1
+    } }
+  }.freeze
+
   SCORE_HASH = {
     X: { base_score: 1, match_score: {
       A: 3,
@@ -25,18 +41,22 @@ module Year2022
     # Call `data` to access either an array of the parsed data, or a single record for a 1-line input file
 
     def part_1
-      data.sum
+      data.map do |tokens|
+        match = SCORE_HASH[tokens[1]]
+        match[:base_score] + match[:match_score][tokens[0]]
+      end.sum
     end
 
     def part_2
-      nil
+      data.map do |tokens|
+        match = SCORE_HASH_2[tokens[1]]
+        match[:base_score] + match[:match_score][tokens[0]]
+      end.sum
     end
 
     # Processes each line of the input file and stores the result in the dataset
     def process_input(line)
-      tokens = line.split.map(&:to_sym)
-      match = SCORE_HASH[tokens[1]]
-      match[:base_score] + match[:match_score][tokens[0]]
+      line.split.map(&:to_sym)
     end
 
     # Processes the dataset as a whole

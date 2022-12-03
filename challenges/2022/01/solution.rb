@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'pry'
-
 module Year2022
   class Day01 < Solution
     # @input is available if you need the raw data input
