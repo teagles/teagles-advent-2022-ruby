@@ -16,7 +16,11 @@ module Year2022
     end
 
     def part_2
-      nil
+      tally = 0
+      data.each do |range_pair|
+        tally += 1 if range_pair.first.intersect?(range_pair.last)
+      end
+      tally
     end
 
     # Processes each line of the input file and stores the result in the dataset
