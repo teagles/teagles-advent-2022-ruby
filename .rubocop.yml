@@ -6,6 +6,7 @@ Metrics/MethodLength:
 
 Metrics/BlockLength:
   CountAsOne: ['array', 'heredoc']
+  AllowedMethods: ['describe']
 
 Naming/VariableNumber:
   EnforcedStyle: snake_case
