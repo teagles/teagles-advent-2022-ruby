@@ -63,7 +63,11 @@ module Year2022
     end
 
     def part_2
-      nil
+      sizes = calculate_sizes(data)
+      used = sizes[['/']]
+      free = 70_000_000 - used
+      needed = 30_000_000 - free
+      sizes.map { |_path, size| size }.filter { |size| size >= needed }.min
     end
 
     # Processes each line of the input file and stores the result in the dataset
