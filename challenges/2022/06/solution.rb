@@ -8,17 +8,20 @@ module Year2022
     # Call `data` to access either an array of the parsed data, or a single record for a 1-line input file
 
     def part_1
-      last_4 = []
-      data.chars.each_with_index do |c, i|
-        # binding.pry
-        last_4 << c
-        last_4 = last_4.last 4
-        return (i + 1) if last_4.to_set.length == 4
-      end
+      first_unique(data, 4)
     end
 
     def part_2
-      nil
+      first_unique(data, 14)
+    end
+
+    def first_unique(chars, length)
+      last_n = []
+      chars.chars.each_with_index do |c, i|
+        last_n << c
+        last_n = last_n.last length
+        return (i + 1) if last_n.to_set.length == length
+      end
     end
 
     # Processes each line of the input file and stores the result in the dataset
