@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'pry-byebug'
-
 module Year2022
   class Day06 < Solution
     # @input is available if you need the raw data input
