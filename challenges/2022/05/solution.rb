@@ -14,9 +14,9 @@ module Year2022
         @destination = destination
       end
 
-      def do_on(boxes)
+      def do_on(boxes, crate_mover_9001: false)
         crane = boxes[@source - 1].slice!(0, @quantity)
-        boxes[@destination - 1].unshift(*crane.reverse)
+        boxes[@destination - 1].unshift(*(crate_mover_9001 ? crane : crane.reverse))
       end
     end
 
@@ -38,7 +38,8 @@ module Year2022
     end
 
     def part_2
-      nil
+      data.moves.map { |m| m.do_on(data.boxes, crate_mover_9001: true) }
+      data.boxes.map(&:first).join
     end
 
     # Processes each line of the input file and stores the result in the dataset
