@@ -40,29 +40,45 @@ RSpec.describe Year2022::Day06 do
     end
 
     it 'returns 5 for the example_2 input' do
-      expect(described_class.part_2(example_input_1)).to eq(5)
+      expect(described_class.part_1(example_input_2)).to eq(5)
     end
 
     it 'returns 6 for the example_3 input' do
-      expect(described_class.part_3(example_input_1)).to eq(6)
+      expect(described_class.part_1(example_input_3)).to eq(6)
     end
 
     it 'returns 10 for the example_4 input' do
-      expect(described_class.part_4(example_input_1)).to eq(10)
+      expect(described_class.part_1(example_input_4)).to eq(10)
     end
 
     it 'returns 11 for the example_5 input' do
-      expect(described_class.part_5(example_input_1)).to eq(11)
+      expect(described_class.part_1(example_input_5)).to eq(11)
     end
 
-    it 'returns nil for my input' do
-      expect(described_class.part_1(input)).to eq(nil)
+    it 'returns 1779 for my input' do
+      expect(described_class.part_1(input)).to eq(1779)
     end
   end
 
   describe 'part 2' do
-    it 'returns nil for the example input' do
-      expect(described_class.part_2(example_input)).to eq(nil)
+    it 'returns 19 for the example_1 input' do
+      expect(described_class.part_2(example_input_1)).to eq(19)
+    end
+
+    it 'returns 23 for the example_2 input' do
+      expect(described_class.part_2(example_input_2)).to eq(23)
+    end
+
+    it 'returns 23 for the example_3 input' do
+      expect(described_class.part_2(example_input_3)).to eq(23)
+    end
+
+    it 'returns 29 for the example_4 input' do
+      expect(described_class.part_2(example_input_4)).to eq(29)
+    end
+
+    it 'returns 26 for the example_5 input' do
+      expect(described_class.part_2(example_input_5)).to eq(26)
     end
 
     it 'returns nil for my input' do
