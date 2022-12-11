@@ -6,7 +6,7 @@ RSpec.describe Year2022::Day05 do
   let(:input) { File.read(File.join(File.dirname(__FILE__), '../../../challenges/2022/05/input.txt')) }
   let(:example_input) do
     <<~EXAMPLE_INPUT
-      [D]#{'    '}
+          [D]#{'    '}
       [N] [C]#{'    '}
       [Z] [M] [P]
        1   2   3#{' '}
@@ -23,8 +23,8 @@ RSpec.describe Year2022::Day05 do
       expect(described_class.part_1(example_input)).to eq('CMZ')
     end
 
-    it 'returns nil for my input' do
-      expect(described_class.part_1(input)).to eq(nil)
+    it 'returns JDTMRWCQJ for my input' do
+      expect(described_class.part_1(input)).to eq('JDTMRWCQJ')
     end
   end
 
