@@ -20,13 +20,13 @@ module Year2022
       max_x = data.first.length - 1
       min_y = 0
       max_y = data.length - 1
-      (check_direction(data, Day08.point(min_x, min_y), EAST, SOUTH) |
-        check_direction(data, Day08.point(max_x, min_y), SOUTH, WEST) |
-        check_direction(data, Day08.point(max_x, max_y), WEST, NORTH) |
-        check_direction(data, Day08.point(min_x, max_y), NORTH, EAST)).length
+      (check_direction_visibility(data, Day08.point(min_x, min_y), EAST, SOUTH) |
+        check_direction_visibility(data, Day08.point(max_x, min_y), SOUTH, WEST) |
+        check_direction_visibility(data, Day08.point(max_x, max_y), WEST, NORTH) |
+        check_direction_visibility(data, Day08.point(min_x, max_y), NORTH, EAST)).length
     end
 
-    def check_direction(grid, starting_point, length_increment, depth_increment)
+    def check_direction_visibility(grid, starting_point, length_increment, depth_increment)
       current_point = starting_point
       visible_points = Set.new
       while in_range(current_point, grid)
@@ -61,7 +61,36 @@ module Year2022
     end
 
     def part_2
-      nil
+      # binding.pry
+      grid_points.flatten(1).map { |t| tree_score(data, t) }.max
+    end
+
+    def grid_points
+      data.each_with_index.map do |_e, y|
+        data[y].each_with_index.map do |_e_2, x|
+          Day08.point(x, y)
+        end
+      end
+    end
+
+    def tree_score(grid, starting_point)
+      # binding.pry
+      [NORTH, SOUTH, EAST, WEST].map { |d| check_trees_in_direction(grid, starting_point, d) }.reduce(:*)
+    end
+
+    def check_trees_in_direction(grid, starting_point, depth_increment)
+      current_point = starting_point
+      # binding.pry
+      tree_height = lookup(grid, starting_point)
+      tree_views = 0
+      current_point = increment_point(current_point, depth_increment)
+      while in_range(current_point, grid)
+        tree_views += 1
+        break if lookup(grid, current_point) >= tree_height
+
+        current_point = increment_point(current_point, depth_increment)
+      end
+      tree_views
     end
 
     # Processes each line of the input file and stores the result in the dataset
