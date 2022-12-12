@@ -13,3 +13,6 @@ Naming/VariableNumber:
 
 Style/Documentation:
   Enabled: false
+
+Metrics/AbcSize:
+  Enabled: false
