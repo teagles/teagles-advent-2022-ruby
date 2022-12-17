@@ -13,19 +13,21 @@ module Year2022
 
     def part_1
       alr = ArithmeticLogicReplacement.new(1, 0, 0)
-      begin
-        data.each do |instruction|
-          case instruction.instruction
-          when :addx
-            addx(alr, instruction.argument)
-          when :noop
-            noop(alr)
-          end
+      process_data alr
+    end
+
+    def process_data(alr)
+      data.each do |instruction|
+        case instruction.instruction
+        when :addx
+          addx(alr, instruction.argument)
+        when :noop
+          noop(alr)
         end
-        raise 'Out of Input'
-      rescue StandardError
-        alr.sum_of_signals
       end
+      raise 'Out of Input'
+    rescue StandardError
+      alr.sum_of_signals
     end
 
     def addx(alr, argument)
@@ -40,12 +42,21 @@ module Year2022
 
     def process_cycle(alr)
       alr.cycle_num += 1
-      alr.sum_of_signals += alr.cycle_num * alr.register if SINGNIFICANT_CYCLES.include? alr.cycle_num
-      raise 'DONE' if alr.cycle_num == SINGNIFICANT_CYCLES.max
+      if alr.sum_of_signals.instance_of?(Integer)
+        alr.sum_of_signals += alr.cycle_num * alr.register if SINGNIFICANT_CYCLES.include? alr.cycle_num
+        raise 'DONE' if alr.cycle_num == SINGNIFICANT_CYCLES.max
+      else
+        # binding.pry
+        y_pos = (alr.cycle_num - 1) / 40
+        x_pos = (alr.cycle_num - 1) % 40
+        sprite_range = Range.new(alr.register - 1, alr.register + 1)
+        alr.sum_of_signals[y_pos][x_pos] = -'#' if sprite_range.cover?(x_pos)
+      end
     end
 
     def part_2
-      nil
+      alr = ArithmeticLogicReplacement.new(1, 0, Array.new(6) { Array.new(40) { -'.' } })
+      (process_data alr).map(&:join).join(-"\n") + -"\n"
     end
 
     # Processes each line of the input file and stores the result in the dataset
