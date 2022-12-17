@@ -9,42 +9,51 @@ module Year2022
     INPUT_MATCHER = /([LRUD]) (\d+)/
     Move = Struct.new(:direction, :distance)
     Point = Struct.new(:x, :y)
-    RopePair = Struct.new(:head, :tail, :visited)
+    RopePair = Struct.new(:head, :tail)
+    Ropel = Struct.new(:knots, :visited)
     DIRECTIONS = { U: Point.new(0, 1).freeze,
                    D: Point.new(0, -1).freeze,
                    L: Point.new(-1, 0).freeze,
                    R: Point.new(1, 0).freeze }.freeze
 
     def part_1
-      rope = RopePair.new(Point.new(0, 0), Point.new(0, 0), Set[Point.new(0, 0)])
+      rope = Ropel.new([Point.new(0, 0), Point.new(0, 0)], Set[Point.new(0, 0)])
       data.each do |move|
         apply_move(rope, move)
       end
       rope.visited.length
     end
 
-    def apply_move(pair, move)
+    def apply_move(rope, move)
       Range.new(1, move.distance).each do |_step|
-        move_pair(pair, move.direction)
+        move_points(rope, move.direction)
       end
     end
 
-    def move_pair(pair, direction)
-      pair.head = move_point(pair.head, direction)
-      pair.tail = move_tail(pair)
-      pair.visited << pair.tail
+    # def move_pair(pair, direction)
+    #   pair.head = move_point(pair.head, direction)
+    #   pair.tail = move_tail(pair)
+    #   pair.visited << pair.tail
+    # end
+
+    def move_points(ropel, direction)
+      ropel.knots[0] = move_point(ropel.knots.first, direction)
+      Range.new(1, ropel.knots.length - 1).each do |index|
+        ropel.knots[index] = move_tail(ropel.knots[index - 1], ropel.knots[index])
+      end
+      ropel.visited << ropel.knots.last
     end
 
-    def move_tail(pair)
-      diff = diff_point(pair.head, pair.tail)
+    def move_tail(head, tail)
+      diff = diff_point(head, tail)
       if diff.x.abs <= 1 && diff.y.abs <= 1
-        pair.tail
+        tail
       elsif diff.x.zero?
-        move_point(pair.tail, Point.new(0, diff.y / diff.y.abs))
+        move_point(tail, Point.new(0, diff.y / diff.y.abs))
       elsif diff.y.zero?
-        move_point(pair.tail, Point.new(diff.x / diff.x.abs, 0))
+        move_point(tail, Point.new(diff.x / diff.x.abs, 0))
       else
-        move_point(pair.tail, Point.new(diff.x / diff.x.abs, diff.y / diff.y.abs))
+        move_point(tail, Point.new(diff.x / diff.x.abs, diff.y / diff.y.abs))
       end
     end
 
@@ -57,7 +66,11 @@ module Year2022
     end
 
     def part_2
-      nil
+      rope = Ropel.new(Array.new(10) { Point.new(0, 0) }, Set[Point.new(0, 0)])
+      data.each do |move|
+        apply_move(rope, move)
+      end
+      rope.visited.length
     end
 
     # Processes each line of the input file and stores the result in the dataset
