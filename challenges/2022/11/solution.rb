@@ -20,22 +20,23 @@ module Year2022
       monkeys = describe_monkeys
       (1..20).each do |_round|
         monkeys.each_key do |key|
-          process_monkey(monkeys, monkeys[key])
+          process_monkey(monkeys, monkeys[key], 3)
         end
       end
       monkeys.map { |_key, monkey| monkey.examination_score }.sort.last(2).reduce(:*)
     end
 
-    def process_monkey(monkeys, monkey)
+    def process_monkey(monkeys, monkey, stress_coefficient)
       monkey.items.each do |item|
-        process_item(monkeys, monkey, item)
+        process_item(monkeys, monkey, item, stress_coefficient)
       end
       monkey.items = []
     end
 
-    def process_item(monkeys, monkey, item)
+    def process_item(monkeys, monkey, item, stress_coefficient)
       monkey.examination_score += 1
-      worry = process_worry(item, monkey.operation) / 3
+      worry = process_worry(item, monkey.operation)
+      worry /= stress_coefficient if stress_coefficient == 3
       if (worry % monkey.test).zero?
         monkeys[monkey.true_case].items << worry
       else
@@ -50,7 +51,18 @@ module Year2022
     end
 
     def part_2
-      nil
+      monkeys = describe_monkeys
+      # binding.pry
+      mantra = monkeys.map { |_key, monkey| monkey.test }.reduce(:*)
+      (1..10_000).each do |_round|
+        monkeys.each_key do |key|
+          process_monkey(monkeys, monkeys[key], 1)
+        end
+        monkeys.each do |_key, monkey|
+          monkey.items.map! { |worry| worry % mantra }
+        end
+      end
+      monkeys.map { |_key, monkey| monkey.examination_score }.sort.last(2).reduce(:*)
     end
 
     def describe_monkeys
