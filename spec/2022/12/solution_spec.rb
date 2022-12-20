@@ -29,8 +29,8 @@ RSpec.describe Year2022::Day12 do
       expect(described_class.part_2(example_input)).to eq(29)
     end
 
-    it 'returns nil for my input' do
-      expect(described_class.part_2(input)).to eq(nil)
+    it 'returns 388 for my input' do
+      expect(described_class.part_2(input)).to eq(388)
     end
   end
 end

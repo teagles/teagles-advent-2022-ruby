@@ -21,7 +21,7 @@ module Year2022
 
     def recurse(paths, seen, map)
       # binding.pry
-      loop do
+      while paths.length.positive?
         next_paths = {}
         goal = paths.keys.select { |p| p == map.finish }
         return paths[goal.first] unless goal.empty?
@@ -60,7 +60,14 @@ module Year2022
     end
 
     def part_2
-      nil
+      map = data
+      starting_points = map.elevations.each_with_index.map do |sub, x|
+        sub.each_with_index.map do |elevation, y|
+          Point.new(x, y) if elevation.zero?
+        end
+      end.flatten.compact
+      # binding.pry
+      starting_points.map { |sp| recurse({ sp => [sp] }, Set[sp], map) }.compact.map { |path| path.length - 1 }.min
     end
 
     # Processes each line of the input file and stores the result in the dataset
